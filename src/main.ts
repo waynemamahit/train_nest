@@ -1,3 +1,5 @@
+import { fastifyCsrfProtection } from '@fastify/csrf-protection';
+import { fastifyHelmet } from '@fastify/helmet';
 import { NestFactory } from '@nestjs/core';
 import {
   FastifyAdapter,
@@ -10,6 +12,9 @@ async function bootstrap() {
     AppModule,
     new FastifyAdapter({ logger: true }),
   );
+  app.enableCors();
+  await app.register(fastifyCsrfProtection);
+  await app.register(fastifyHelmet);
   await app.listen(3000);
 }
 bootstrap();
